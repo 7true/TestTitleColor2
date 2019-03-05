@@ -1,7 +1,10 @@
 package tk.alltrue.testtitlecolor2;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.Spannable;
@@ -19,18 +22,18 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private static final int LED_NOTIFICATION_ID= 0; //arbitrary constant
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CharSequence title = toolbar.getTitle();
+        /*CharSequence title = toolbar.getTitle();
         SpannableString s = new SpannableString(title);
         s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
-
+*/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +108,23 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void onClick(View view) {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    // yourMethod();
+                                }
+                            }, 3000);
+
+        NotificationManager nm = (NotificationManager) getSystemService( NOTIFICATION_SERVICE);
+        Notification notif = new Notification();
+        notif.ledARGB = 0xFFff0000;
+        notif.flags = Notification.FLAG_SHOW_LIGHTS;
+        notif.ledOnMS = 100;
+        notif.ledOffMS = 100;
+        nm.notify(LED_NOTIFICATION_ID, notif);
     }
 }
